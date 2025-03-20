@@ -7,10 +7,11 @@ edition = "2021"
 num-bigint = "0.4"
 num-traits = "0.2"
 subtle = "2.4"
-
-# Rayon is optional and used when the "parallel" feature is enabled.
 rayon = { version = "1.6", optional = true }
 
 [features]
 parallel = ["rayon"]
 default = []
+
+[dev-dependencies]
+criterion = "0.4"

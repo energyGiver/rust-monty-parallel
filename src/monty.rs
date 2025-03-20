@@ -60,9 +60,10 @@ fn add_mul_vvw(z: &mut [BigDigit], x: &[BigDigit], y: BigDigit) -> BigDigit {
     let num_chunks = (len + chunk_size - 1) / chunk_size;
     let mut carries = vec![0u64; num_chunks];
 
-    z.par_chunks_mut(chunk_size)
+    let carries: Vec<BigDigit> = z
+        .par_chunks_mut(chunk_size)
         .enumerate()
-        .for_each(|(chunk_idx, chunk)| {
+        .map(|(chunk_idx, chunk)| {
             let start = chunk_idx * chunk_size;
             let mut c: BigDigit = 0;
             for j in 0..chunk.len() {
@@ -72,9 +73,10 @@ fn add_mul_vvw(z: &mut [BigDigit], x: &[BigDigit], y: BigDigit) -> BigDigit {
                 chunk[j] = zi_new;
                 c = c_new + z1;
             }
-            carries[chunk_idx] = c;
-        });
-    let mut carry = 0;
+            c // 각 청크의 carry 값을 리턴
+        })
+        .collect();
+    let mut carry: BigDigit = 0;
     for &c in &carries {
         carry = carry.wrapping_add(c);
     }
