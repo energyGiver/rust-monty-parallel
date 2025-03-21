@@ -18,17 +18,13 @@ mod division;
 mod multiplication;
 mod subtraction;
 
-mod arbitrary;
-mod bits;
 mod convert;
-mod iter;
 mod monty;
 mod power;
-mod serde;
 mod shift;
 
 pub(crate) use self::convert::to_str_radix_reversed;
-pub use self::iter::{U32Digits, U64Digits};
+// pub use self::iter::{U32Digits, U64Digits};
 
 /// A big unsigned integer type.
 pub struct BigUint {
@@ -726,10 +722,10 @@ impl BigUint {
     /// assert_eq!(BigUint::from(4294967296u64).to_u32_digits(), vec![0, 1]);
     /// assert_eq!(BigUint::from(112500000000u64).to_u32_digits(), vec![830850304, 26]);
     /// ```
-    #[inline]
-    pub fn to_u32_digits(&self) -> Vec<u32> {
-        self.iter_u32_digits().collect()
-    }
+    // #[inline]
+    // pub fn to_u32_digits(&self) -> Vec<u32> {
+    //     self.iter_u32_digits().collect()
+    // }
 
     /// Returns the `u64` digits representation of the [`BigUint`] ordered least significant digit
     /// first.
@@ -745,10 +741,10 @@ impl BigUint {
     /// assert_eq!(BigUint::from(112500000000u64).to_u64_digits(), vec![112500000000]);
     /// assert_eq!(BigUint::from(1u128 << 64).to_u64_digits(), vec![0, 1]);
     /// ```
-    #[inline]
-    pub fn to_u64_digits(&self) -> Vec<u64> {
-        self.iter_u64_digits().collect()
-    }
+    // #[inline]
+    // pub fn to_u64_digits(&self) -> Vec<u64> {
+    //     self.iter_u64_digits().collect()
+    // }
 
     /// Returns an iterator of `u32` digits representation of the [`BigUint`] ordered least
     /// significant digit first.
@@ -763,10 +759,10 @@ impl BigUint {
     /// assert_eq!(BigUint::from(4294967296u64).iter_u32_digits().collect::<Vec<u32>>(), vec![0, 1]);
     /// assert_eq!(BigUint::from(112500000000u64).iter_u32_digits().collect::<Vec<u32>>(), vec![830850304, 26]);
     /// ```
-    #[inline]
-    pub fn iter_u32_digits(&self) -> U32Digits<'_> {
-        U32Digits::new(self.data.as_slice())
-    }
+    // #[inline]
+    // pub fn iter_u32_digits(&self) -> U32Digits<'_> {
+    //     U32Digits::new(self.data.as_slice())
+    // }
 
     /// Returns an iterator of `u64` digits representation of the [`BigUint`] ordered least
     /// significant digit first.
@@ -782,10 +778,10 @@ impl BigUint {
     /// assert_eq!(BigUint::from(112500000000u64).iter_u64_digits().collect::<Vec<u64>>(), vec![112500000000]);
     /// assert_eq!(BigUint::from(1u128 << 64).iter_u64_digits().collect::<Vec<u64>>(), vec![0, 1]);
     /// ```
-    #[inline]
-    pub fn iter_u64_digits(&self) -> U64Digits<'_> {
-        U64Digits::new(self.data.as_slice())
-    }
+    // #[inline]
+    // pub fn iter_u64_digits(&self) -> U64Digits<'_> {
+    //     U64Digits::new(self.data.as_slice())
+    // }
 
     /// Returns the integer formatted as a string in the given radix.
     /// `radix` must be in the range `2...36`.
@@ -1070,8 +1066,8 @@ impl num_traits::ToBytes for BigUint {
 
 pub(crate) trait IntDigits {
     fn digits(&self) -> &[BigDigit];
-    fn digits_mut(&mut self) -> &mut Vec<BigDigit>;
-    fn normalize(&mut self);
+    // fn digits_mut(&mut self) -> &mut Vec<BigDigit>;
+    // fn normalize(&mut self);
     fn capacity(&self) -> usize;
     fn len(&self) -> usize;
 }
@@ -1081,14 +1077,14 @@ impl IntDigits for BigUint {
     fn digits(&self) -> &[BigDigit] {
         &self.data
     }
-    #[inline]
-    fn digits_mut(&mut self) -> &mut Vec<BigDigit> {
-        &mut self.data
-    }
-    #[inline]
-    fn normalize(&mut self) {
-        self.normalize();
-    }
+    // #[inline]
+    // fn digits_mut(&mut self) -> &mut Vec<BigDigit> {
+    //     &mut self.data
+    // }
+    // #[inline]
+    // fn normalize(&mut self) {
+    //     self.normalize();
+    // }
     #[inline]
     fn capacity(&self) -> usize {
         self.data.capacity()

@@ -17,18 +17,15 @@ use self::Sign::{Minus, NoSign, Plus};
 
 use crate::big_digit::BigDigit;
 use crate::biguint::to_str_radix_reversed;
-use crate::biguint::{BigUint, IntDigits, U32Digits, U64Digits};
+use crate::biguint::{BigUint, IntDigits};
 
 mod addition;
 mod division;
 mod multiplication;
 mod subtraction;
 
-mod arbitrary;
-mod bits;
 mod convert;
 mod power;
-mod serde;
 mod shift;
 
 /// A `Sign` is a [`BigInt`]'s composing element.
@@ -533,17 +530,17 @@ impl IntDigits for BigInt {
     fn digits(&self) -> &[BigDigit] {
         self.data.digits()
     }
-    #[inline]
-    fn digits_mut(&mut self) -> &mut Vec<BigDigit> {
-        self.data.digits_mut()
-    }
-    #[inline]
-    fn normalize(&mut self) {
-        self.data.normalize();
-        if self.data.is_zero() {
-            self.sign = NoSign;
-        }
-    }
+    // #[inline]
+    // fn digits_mut(&mut self) -> &mut Vec<BigDigit> {
+    //     self.data.digits_mut()
+    // }
+    // #[inline]
+    // fn normalize(&mut self) {
+    //     self.data.normalize();
+    //     if self.data.is_zero() {
+    //         self.sign = NoSign;
+    //     }
+    // }
     #[inline]
     fn capacity(&self) -> usize {
         self.data.capacity()
@@ -763,10 +760,10 @@ impl BigInt {
     /// assert_eq!(BigInt::from(-112500000000i64).to_u32_digits(), (Sign::Minus, vec![830850304, 26]));
     /// assert_eq!(BigInt::from(112500000000i64).to_u32_digits(), (Sign::Plus, vec![830850304, 26]));
     /// ```
-    #[inline]
-    pub fn to_u32_digits(&self) -> (Sign, Vec<u32>) {
-        (self.sign, self.data.to_u32_digits())
-    }
+    // #[inline]
+    // pub fn to_u32_digits(&self) -> (Sign, Vec<u32>) {
+    //     (self.sign, self.data.to_u32_digits())
+    // }
 
     /// Returns the sign and the `u64` digits representation of the [`BigInt`] ordered least
     /// significant digit first.
@@ -783,10 +780,10 @@ impl BigInt {
     /// assert_eq!(BigInt::from(112500000000i64).to_u64_digits(), (Sign::Plus, vec![112500000000]));
     /// assert_eq!(BigInt::from(1u128 << 64).to_u64_digits(), (Sign::Plus, vec![0, 1]));
     /// ```
-    #[inline]
-    pub fn to_u64_digits(&self) -> (Sign, Vec<u64>) {
-        (self.sign, self.data.to_u64_digits())
-    }
+    // #[inline]
+    // pub fn to_u64_digits(&self) -> (Sign, Vec<u64>) {
+    //     (self.sign, self.data.to_u64_digits())
+    // }
 
     /// Returns an iterator of `u32` digits representation of the [`BigInt`] ordered least
     /// significant digit first.
@@ -802,10 +799,10 @@ impl BigInt {
     /// assert_eq!(BigInt::from(-112500000000i64).iter_u32_digits().collect::<Vec<u32>>(), vec![830850304, 26]);
     /// assert_eq!(BigInt::from(112500000000i64).iter_u32_digits().collect::<Vec<u32>>(), vec![830850304, 26]);
     /// ```
-    #[inline]
-    pub fn iter_u32_digits(&self) -> U32Digits<'_> {
-        self.data.iter_u32_digits()
-    }
+    // #[inline]
+    // pub fn iter_u32_digits(&self) -> U32Digits<'_> {
+    //     self.data.iter_u32_digits()
+    // }
 
     /// Returns an iterator of `u64` digits representation of the [`BigInt`] ordered least
     /// significant digit first.
@@ -822,10 +819,10 @@ impl BigInt {
     /// assert_eq!(BigInt::from(112500000000i64).iter_u64_digits().collect::<Vec<u64>>(), vec![112500000000u64]);
     /// assert_eq!(BigInt::from(1u128 << 64).iter_u64_digits().collect::<Vec<u64>>(), vec![0, 1]);
     /// ```
-    #[inline]
-    pub fn iter_u64_digits(&self) -> U64Digits<'_> {
-        self.data.iter_u64_digits()
-    }
+    // #[inline]
+    // pub fn iter_u64_digits(&self) -> U64Digits<'_> {
+    //     self.data.iter_u64_digits()
+    // }
 
     /// Returns the two's-complement byte representation of the [`BigInt`] in big-endian byte order.
     ///
@@ -1131,28 +1128,22 @@ impl BigInt {
         }
     }
 
-    /// Sets or clears the bit in the given position,
-    /// using the two's complement for negative numbers
-    ///
-    /// Note that setting/clearing a bit (for positive/negative numbers,
-    /// respectively) greater than the current bit length, a reallocation
-    /// may be needed to store the new digits
-    pub fn set_bit(&mut self, bit: u64, value: bool) {
-        match self.sign {
-            Sign::Plus => self.data.set_bit(bit, value),
-            Sign::Minus => bits::set_negative_bit(self, bit, value),
-            Sign::NoSign => {
-                if value {
-                    self.data.set_bit(bit, true);
-                    self.sign = Sign::Plus;
-                } else {
-                    // Clearing a bit for zero is a no-op
-                }
-            }
-        }
-        // The top bit may have been cleared, so normalize
-        self.normalize();
-    }
+    // pub fn set_bit(&mut self, bit: u64, value: bool) {
+    //     match self.sign {
+    //         Sign::Plus => self.data.set_bit(bit, value),
+    //         Sign::Minus => bits::set_negative_bit(self, bit, value),
+    //         Sign::NoSign => {
+    //             if value {
+    //                 self.data.set_bit(bit, true);
+    //                 self.sign = Sign::Plus;
+    //             } else {
+    //                 // Clearing a bit for zero is a no-op
+    //             }
+    //         }
+    //     }
+    //     // The top bit may have been cleared, so normalize
+    //     self.normalize();
+    // }
 }
 
 impl num_traits::FromBytes for BigInt {
