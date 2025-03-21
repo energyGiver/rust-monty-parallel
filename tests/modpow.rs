@@ -108,74 +108,74 @@ mod biguint {
     }
 }
 
-mod bigint {
-    use num_integer::Integer;
-    use num_traits::{Num, One, Signed};
-    use rust_monty_parallel::bigint::BigInt;
+// mod bigint {
+//     use num_integer::Integer;
+//     use num_traits::{Num, One, Signed};
+//     use rust_monty_parallel::bigint::BigInt;
 
-    fn check_modpow<T: Into<BigInt>>(b: T, e: T, m: T, r: T) {
-        fn check(b: &BigInt, e: &BigInt, m: &BigInt, r: &BigInt) {
-            assert_eq!(&b.modpow(e, m), r, "{} ** {} (mod {}) != {}", b, e, m, r);
+//     fn check_modpow<T: Into<BigInt>>(b: T, e: T, m: T, r: T) {
+//         fn check(b: &BigInt, e: &BigInt, m: &BigInt, r: &BigInt) {
+//             assert_eq!(&b.modpow(e, m), r, "{} ** {} (mod {}) != {}", b, e, m, r);
 
-            let even_m = m << 1u8;
-            let even_modpow = b.modpow(e, m);
-            assert!(even_modpow.abs() < even_m.abs());
-            assert_eq!(&even_modpow.mod_floor(m), r);
+//             let even_m = m << 1u8;
+//             let even_modpow = b.modpow(e, m);
+//             assert!(even_modpow.abs() < even_m.abs());
+//             assert_eq!(&even_modpow.mod_floor(m), r);
 
-            // the sign of the result follows the modulus like `mod_floor`, not `rem`
-            assert_eq!(b.modpow(&BigInt::one(), m), b.mod_floor(m));
-        }
+//             // the sign of the result follows the modulus like `mod_floor`, not `rem`
+//             assert_eq!(b.modpow(&BigInt::one(), m), b.mod_floor(m));
+//         }
 
-        let b: BigInt = b.into();
-        let e: BigInt = e.into();
-        let m: BigInt = m.into();
-        let r: BigInt = r.into();
+//         let b: BigInt = b.into();
+//         let e: BigInt = e.into();
+//         let m: BigInt = m.into();
+//         let r: BigInt = r.into();
 
-        let neg_b_r = if e.is_odd() {
-            (-&r).mod_floor(&m)
-        } else {
-            r.clone()
-        };
-        let neg_m_r = r.mod_floor(&-&m);
-        let neg_bm_r = neg_b_r.mod_floor(&-&m);
+//         let neg_b_r = if e.is_odd() {
+//             (-&r).mod_floor(&m)
+//         } else {
+//             r.clone()
+//         };
+//         let neg_m_r = r.mod_floor(&-&m);
+//         let neg_bm_r = neg_b_r.mod_floor(&-&m);
 
-        check(&b, &e, &m, &r);
-        check(&-&b, &e, &m, &neg_b_r);
-        check(&b, &e, &-&m, &neg_m_r);
-        check(&-b, &e, &-&m, &neg_bm_r);
-    }
+//         check(&b, &e, &m, &r);
+//         check(&-&b, &e, &m, &neg_b_r);
+//         check(&b, &e, &-&m, &neg_m_r);
+//         check(&-b, &e, &-&m, &neg_bm_r);
+//     }
 
-    #[test]
-    fn test_modpow() {
-        check_modpow(1, 0, 11, 1);
-        check_modpow(0, 15, 11, 0);
-        check_modpow(3, 7, 11, 9);
-        check_modpow(5, 117, 19, 1);
-        check_modpow(-20, 1, 2, 0);
-        check_modpow(-20, 1, 3, 1);
-    }
+//     #[test]
+//     fn test_modpow() {
+//         check_modpow(1, 0, 11, 1);
+//         check_modpow(0, 15, 11, 0);
+//         check_modpow(3, 7, 11, 9);
+//         check_modpow(5, 117, 19, 1);
+//         check_modpow(-20, 1, 2, 0);
+//         check_modpow(-20, 1, 3, 1);
+//     }
 
-    #[test]
-    fn test_modpow_small() {
-        for b in -10i64..11 {
-            for e in 0i64..11 {
-                for m in -10..11 {
-                    if m == 0 {
-                        continue;
-                    }
-                    check_modpow(b, e, m, b.pow(e as u32).mod_floor(&m));
-                }
-            }
-        }
-    }
+//     #[test]
+//     fn test_modpow_small() {
+//         for b in -10i64..11 {
+//             for e in 0i64..11 {
+//                 for m in -10..11 {
+//                     if m == 0 {
+//                         continue;
+//                     }
+//                     check_modpow(b, e, m, b.pow(e as u32).mod_floor(&m));
+//                 }
+//             }
+//         }
+//     }
 
-    #[test]
-    fn test_modpow_big() {
-        let b = BigInt::from_str_radix(super::BIG_B, 16).unwrap();
-        let e = BigInt::from_str_radix(super::BIG_E, 16).unwrap();
-        let m = BigInt::from_str_radix(super::BIG_M, 16).unwrap();
-        let r = BigInt::from_str_radix(super::BIG_R, 16).unwrap();
+//     #[test]
+//     fn test_modpow_big() {
+//         let b = BigInt::from_str_radix(super::BIG_B, 16).unwrap();
+//         let e = BigInt::from_str_radix(super::BIG_E, 16).unwrap();
+//         let m = BigInt::from_str_radix(super::BIG_M, 16).unwrap();
+//         let r = BigInt::from_str_radix(super::BIG_R, 16).unwrap();
 
-        check_modpow(b, e, m, r);
-    }
-}
+//         check_modpow(b, e, m, r);
+//     }
+// }

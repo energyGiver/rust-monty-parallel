@@ -6,11 +6,10 @@ edition = "2021"
 [dependencies]
 num-traits = "0.2"
 subtle = "2.4"
-rayon = { version = "1.6", optional = true }
+rayon = { version = "1.10", optional = true }
 
 [features]
 std = ["num-integer/std", "num-traits/std"]
-serde = ["dep:serde"]
 parallel = ["rayon"]
 arbitrary = ["dep:arbitrary"]
 quickcheck = ["dep:quickcheck"]
