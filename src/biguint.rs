@@ -130,7 +130,7 @@ mod tests {
     #[test]
     fn test_shl_whole_limbs() {
         let a = BigUint { data: vec![1] };
-        let shifted = a << 128; // 1 << 128 should be represented as [0, 0, 1].
+        let shifted: BigUint = a << 128; // 1 << 128 should be represented as [0, 0, 1].
         assert_eq!(shifted.data, vec![0, 0, 1]);
     }
 
