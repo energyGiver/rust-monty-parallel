@@ -13,6 +13,11 @@ rayon = { version = "1.6", optional = true }
 parallel = ["rayon"]
 default = []
 
+[dependencies.num-integer]
+version = "0.1.46"
+default-features = false
+features = ["i128"]
+
 [dev-dependencies]
 criterion = "0.4"
 
