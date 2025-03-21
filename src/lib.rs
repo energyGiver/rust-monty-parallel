@@ -111,9 +111,9 @@ use core::fmt;
 #[macro_use]
 mod macros;
 
-mod bigint;
+pub mod bigint;
 mod bigrand;
-mod biguint;
+pub mod biguint;
 
 #[cfg(target_pointer_width = "32")]
 type UsizePromotion = u32;

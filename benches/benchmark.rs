@@ -55,3 +55,7 @@
 
 // criterion_group!(benches, intense_benchmark);
 // criterion_main!(benches);
+
+fn main() {
+    return;
+}

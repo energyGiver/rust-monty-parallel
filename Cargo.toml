@@ -4,19 +4,44 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-num-bigint = "0.4"
 num-traits = "0.2"
 subtle = "2.4"
 rayon = { version = "1.6", optional = true }
 
 [features]
+std = ["num-integer/std", "num-traits/std"]
+serde = ["dep:serde"]
 parallel = ["rayon"]
+arbitrary = ["dep:arbitrary"]
+quickcheck = ["dep:quickcheck"]
+rand = ["dep:rand"]
 default = []
 
 [dependencies.num-integer]
 version = "0.1.46"
 default-features = false
 features = ["i128"]
+
+[dependencies.rand]
+optional = true
+version = "0.8"
+default-features = false
+
+[dependencies.serde]
+optional = true
+version = "1.0"
+default-features = false
+
+[dependencies.quickcheck]
+optional = true
+version = "1"
+default-features = false
+
+[dependencies.arbitrary]
+optional = true
+version = "1"
+default-features = false
+
 
 [dev-dependencies]
 criterion = "0.4"
